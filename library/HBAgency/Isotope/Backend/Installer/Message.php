@@ -27,59 +27,62 @@ use NotificationCenter\Model\Message as IsotopeMessage;
 class Message extends Installer
 {
 
-	/**
-	 * Install Gateway
-	 */
-	public static function install($blnTruncate=false)
-	{
-	    $objDB          = \Database::getInstance();
-		$strTable       = IsotopeMessage::getTable();
-		$arrReturn      = array();
-	
-		if($blnTruncate) {
-			static::truncate($strTable);
-		}
-		
-		//Admin Message
-		$arrAdminSet = array
-		(
-			'pid'                => $GLOBALS['ISO_INSTALLER']['notification'],
-			'tstamp'		     => time(),
-			'title'			     => 'Admin Email',
-			'gateway'			 => $GLOBALS['ISO_INSTALLER']['gateway'],
-			'gateway_type'		 => 'email',
-			'email_priority'	 => 3,
-			'email_template'	 => 'mail_default',
-			'published'	         => 1,
-			'auto_installed'     => 1,
-		);
-		
-		$arrReturn['admin'] = $objDB->prepare("INSERT INTO ".$strTable." %s")
-											  ->set($arrAdminSet)
-											  ->executeUncached()
+    /**
+     * Install Messages
+     *
+     * @param boolean
+     * @return array
+     */
+    public static function install($blnTruncate=false)
+    {
+        $objDB          = \Database::getInstance();
+        $strTable       = IsotopeMessage::getTable();
+        $arrReturn      = array();
+    
+        if($blnTruncate) {
+            static::truncate($strTable);
+        }
+        
+        //Admin Message
+        $arrAdminSet = array
+        (
+            'pid'                => $GLOBALS['ISO_INSTALLER']['notification'],
+            'tstamp'             => time(),
+            'title'              => 'Admin Email',
+            'gateway'            => $GLOBALS['ISO_INSTALLER']['gateway'],
+            'gateway_type'       => 'email',
+            'email_priority'     => 3,
+            'email_template'     => 'mail_default',
+            'published'          => 1,
+            'auto_installed'     => 1,
+        );
+        
+        $arrReturn['admin'] = $objDB->prepare("INSERT INTO ".$strTable." %s")
+                                              ->set($arrAdminSet)
+                                              ->executeUncached()
                                               ->insertId;
                                               
         //Customer Message
-		$arrCustomerSet = array
-		(
-			'pid'                => $GLOBALS['ISO_INSTALLER']['notification'],
-			'tstamp'		     => time(),
-			'title'			     => 'Customer Email',
-			'gateway'			 => $GLOBALS['ISO_INSTALLER']['gateway'],
-			'gateway_type'		 => 'email',
-			'email_priority'	 => 3,
-			'email_template'	 => 'mail_default',
-			'published'	         => 1,
-			'auto_installed'     => 1,
-		);
+        $arrCustomerSet = array
+        (
+            'pid'                => $GLOBALS['ISO_INSTALLER']['notification'],
+            'tstamp'             => time(),
+            'title'              => 'Customer Email',
+            'gateway'            => $GLOBALS['ISO_INSTALLER']['gateway'],
+            'gateway_type'       => 'email',
+            'email_priority'     => 3,
+            'email_template'     => 'mail_default',
+            'published'          => 1,
+            'auto_installed'     => 1,
+        );
                                               
         $arrReturn['customer'] = $objDB->prepare("INSERT INTO ".$strTable." %s")
-											  ->set($arrCustomerSet)
-											  ->executeUncached()
+                                              ->set($arrCustomerSet)
+                                              ->executeUncached()
                                               ->insertId;
-																
-	
+                                                                
+    
         return $arrReturn;
-	}
+    }
 
 }

@@ -29,22 +29,22 @@ require '../../../initialize.php';
 class TestInstall extends \Frontend
 {
 
-	/**
-	 * Initialize the object
-	 */
-	public function __construct()
-	{
-		parent::__construct();
-	}
+    /**
+     * Initialize the object
+     */
+    public function __construct()
+    {
+        parent::__construct();
+    }
 
     /**
-	 * Run the controller
-	 */
-	public function run()
-	{
-	    HBAgency\Isotope\Backend\Installer::install(true);
-	}
-	
+     * Run the controller
+     */
+    public function run()
+    {
+        HBAgency\Isotope\Backend\Installer::install(true);
+    }
+    
 }
 
 /**

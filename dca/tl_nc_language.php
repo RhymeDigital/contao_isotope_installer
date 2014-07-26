@@ -15,5 +15,5 @@
  */
 $GLOBALS['TL_DCA']['tl_nc_language']['fields']['auto_installed'] = array
 (
-	'sql'	=> "char(1) NOT NULL default ''"
+    'sql'   => "char(1) NOT NULL default ''"
 );

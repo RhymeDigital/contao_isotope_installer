@@ -27,65 +27,70 @@ use Isotope\Model\Config as IsotopeConfig;
 class StoreConfig extends Installer
 {
 
-	/**
-	 * Install Documents for invoices/etc
-	 */
-	public static function install($blnTruncate=false)
-	{
-	    $objDB          = \Database::getInstance();
-		$strTable       = IsotopeConfig::getTable();
-	
-		if($blnTruncate) {
-			static::truncate($strTable);
-		}
-		
-		//Default Config
-		$arrSet = array
-		(
-			'tstamp'		     => time(),
-			'name'			     => 'Default Store Config',
-			'label'			     => 'Default Store Config',
-			'fallback'           => 1,
-			'subdivision'        => 'US-MA',
-			'country'            => 'us',
-			'address_fields'     => static::getAddressFields(),
-			'billing_country'    => 'us',
-			'shipping_country'   => 'us',
-			'billing_countries'  => array('us'),
-			'shipping_countries' => array('us'),
-			'limitMemberCountries'=> 1,
-			'priceRoundPrecision'=> 2,
-			'priceRoundIncrement'=> 0.01,
-			'cartMinSubtotal'    => 0.00,
-			'currency'           => 'USD',
-			'currencySymbol'     => 1,
-			'currencyPosition'   => 'left',
-			'currencyFormat'     => '10,000.00',
-			'priceCalculateFactor' => 1,
-			'priceCalculateMode' => 'mul',
-			'orderPrefix'        => date('Y'),
-			'orderDigits'        => 4,
-			'orderstatus_new'    => 2,
-			'orderstatus_error'  => 4,
-			'newProductPeriod'   => array('unit'=>'days', 'value'=> 30),
-			'auto_installed'     => 1,
-		);
-		
-		$intConfigID = $objDB->prepare("INSERT INTO ".$strTable." %s")
-											  ->set($arrSet)
-											  ->executeUncached()
+    /**
+     * Install Default Store Config
+     *
+     * @param boolean
+     * @return array
+     */
+    public static function install($blnTruncate=false)
+    {
+        $objDB          = \Database::getInstance();
+        $strTable       = IsotopeConfig::getTable();
+    
+        if($blnTruncate) {
+            static::truncate($strTable);
+        }
+        
+        //Default Config
+        $arrSet = array
+        (
+            'tstamp'             => time(),
+            'name'               => 'Default Store Config',
+            'label'              => 'Default Store Config',
+            'fallback'           => 1,
+            'subdivision'        => 'US-MA',
+            'country'            => 'us',
+            'address_fields'     => static::getAddressFields(),
+            'billing_country'    => 'us',
+            'shipping_country'   => 'us',
+            'billing_countries'  => array('us'),
+            'shipping_countries' => array('us'),
+            'limitMemberCountries'=> 1,
+            'priceRoundPrecision'=> 2,
+            'priceRoundIncrement'=> 0.01,
+            'cartMinSubtotal'    => 0.00,
+            'currency'           => 'USD',
+            'currencySymbol'     => 1,
+            'currencyPosition'   => 'left',
+            'currencyFormat'     => '10,000.00',
+            'priceCalculateFactor' => 1,
+            'priceCalculateMode' => 'mul',
+            'orderPrefix'        => date('Y'),
+            'orderDigits'        => 4,
+            'orderstatus_new'    => 2,
+            'orderstatus_error'  => 4,
+            'newProductPeriod'   => array('unit'=>'days', 'value'=> 30),
+            'auto_installed'     => 1,
+        );
+        
+        $intConfigID = $objDB->prepare("INSERT INTO ".$strTable." %s")
+                                              ->set($arrSet)
+                                              ->executeUncached()
                                               ->insertId;
-																
-	
+                                                                
+    
         return $intConfigID;
-	}
+    }
     
     /**
-	 * Build the address fields
-	 */
-	public static function getAddressFields()
-	{
-	    $arrAddressFields = array
+     * Build the address fields
+     *
+     * @return array
+     */
+    public static function getAddressFields()
+    {
+        $arrAddressFields = array
         (
             'label' => array
             (   
@@ -166,5 +171,5 @@ class StoreConfig extends Installer
         );
         
         return $arrAddressFields;
-	}
+    }
 }

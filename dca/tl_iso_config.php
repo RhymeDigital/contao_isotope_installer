@@ -15,5 +15,5 @@
  */
 $GLOBALS['TL_DCA']['tl_iso_config']['fields']['auto_installed'] = array
 (
-	'sql'	=> "char(1) NOT NULL default ''"
+    'sql'   => "char(1) NOT NULL default ''"
 );

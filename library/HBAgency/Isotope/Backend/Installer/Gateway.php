@@ -27,34 +27,37 @@ use NotificationCenter\Model\Gateway as IsotopeGateway;
 class Gateway extends Installer
 {
 
-	/**
-	 * Install Gateway
-	 */
-	public static function install($blnTruncate=false)
-	{
-	    $objDB          = \Database::getInstance();
-		$strTable       = IsotopeGateway::getTable();
-	
-		if($blnTruncate) {
-			static::truncate($strTable);
-		}
-		
-		//Default Gateway
-		$arrSet = array
-		(
-			'tstamp'		     => time(),
-			'title'			     => 'Email',
-			'type'			     => 'email',
-			'auto_installed'     => 1,
-		);
-		
-		$intGatewayID = $objDB->prepare("INSERT INTO ".$strTable." %s")
-											  ->set($arrSet)
-											  ->executeUncached()
+    /**
+     * Install Gateway
+     *
+     * @param boolean
+     * @return int
+     */
+    public static function install($blnTruncate=false)
+    {
+        $objDB          = \Database::getInstance();
+        $strTable       = IsotopeGateway::getTable();
+    
+        if($blnTruncate) {
+            static::truncate($strTable);
+        }
+        
+        //Default Gateway
+        $arrSet = array
+        (
+            'tstamp'             => time(),
+            'title'              => 'Email',
+            'type'               => 'email',
+            'auto_installed'     => 1,
+        );
+        
+        $intGatewayID = $objDB->prepare("INSERT INTO ".$strTable." %s")
+                                              ->set($arrSet)
+                                              ->executeUncached()
                                               ->insertId;
-																
-	
+                                                                
+    
         return $intGatewayID;
-	}
+    }
 
 }

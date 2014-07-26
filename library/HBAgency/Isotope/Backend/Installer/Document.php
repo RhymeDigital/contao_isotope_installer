@@ -27,40 +27,42 @@ use Isotope\Model\Document as IsotopeDocument;
 class Document extends Installer
 {
 
-	/**
-	 * Install Documents for invoices/etc
-	 */
-	public static function install($blnTruncate=false)
-	{
-	    $objDB          = \Database::getInstance();
-		$strTable       = IsotopeDocument::getTable();
-	
-		if($blnTruncate) {
-			static::truncate($strTable);
-		}
-		
-		//Invoice Document
-		$arrInvoiceSet = array
-		(
-			'tstamp'		     => time(),
-			'name'			     => 'Default Invoice',
-			'type'			     => 'standard',
-			'documentTitle'	     => 'Invoice # ##collection_document_number##',
-			'fileTitle'		     => 'invoice_##collection_document_number##',
-			'documentTpl'	     => 'iso_document_default',
-			'collectionTpl'	     => 'iso_collection_default',
-			'orderCollectionBy'	 => 'asc_id',
-			'gallery'	         => $GLOBALS['ISO_INSTALLER']['gallery']['cart'],
-			'auto_installed'     => 1,
-		);
-		
-		$intDocument = $objDB->prepare("INSERT INTO ".$strTable." %s")
-											  ->set($arrInvoiceSet)
-											  ->executeUncached()
+    /**
+     * Install Documents for invoices/etc
+     * @param boolean
+     * @return int
+     */
+    public static function install($blnTruncate=false)
+    {
+        $objDB          = \Database::getInstance();
+        $strTable       = IsotopeDocument::getTable();
+    
+        if($blnTruncate) {
+            static::truncate($strTable);
+        }
+        
+        //Invoice Document
+        $arrInvoiceSet = array
+        (
+            'tstamp'             => time(),
+            'name'               => 'Default Invoice',
+            'type'               => 'standard',
+            'documentTitle'      => 'Invoice # ##collection_document_number##',
+            'fileTitle'          => 'invoice_##collection_document_number##',
+            'documentTpl'        => 'iso_document_default',
+            'collectionTpl'      => 'iso_collection_default',
+            'orderCollectionBy'  => 'asc_id',
+            'gallery'            => $GLOBALS['ISO_INSTALLER']['gallery']['cart'],
+            'auto_installed'     => 1,
+        );
+        
+        $intDocument = $objDB->prepare("INSERT INTO ".$strTable." %s")
+                                              ->set($arrInvoiceSet)
+                                              ->executeUncached()
                                               ->insertId;
-																
-	
+                                                                
+    
         return $intDocument;
-	}
+    }
 
 }

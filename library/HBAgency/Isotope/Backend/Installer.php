@@ -24,32 +24,36 @@ namespace HBAgency\Isotope\Backend;
 class Installer extends \Controller
 {
 
-	/**
-	 * Run the installer
-	 */
-	public static function install($blnTruncate=false)
-	{
-	    $GLOBALS['ISO_INSTALLER'] = array();
-	    $arrCache = &$GLOBALS['ISO_INSTALLER'];
-	    
-		$arrCache['gallery']        = Installer\Gallery::install($blnTruncate);
-		$arrCache['document']       = Installer\Document::install($blnTruncate);
-		$arrCache['notification']   = Installer\Notification::install($blnTruncate);
-		$arrCache['gateway']        = Installer\Gateway::install($blnTruncate);
-		$arrCache['message']        = Installer\Message::install($blnTruncate);
-		$arrCache['language']       = Installer\Language::install($blnTruncate);
-		$arrCache['config']         = Installer\StoreConfig::install($blnTruncate);
-	}
-		
-	/**
-	 * Truncate a table
-	 */
-	protected static function truncate($strTable)
-	{
-		//Check if it exists
-		if(\Database::getInstance()->tableExists($strTable)) {
-			\Database::getInstance()->executeUncached("DELETE FROM $strTable WHERE auto_installed=1");
-		}
-	}
+    /**
+     * Run the installer
+     *
+     * @param boolean
+     */
+    public static function install($blnTruncate=false)
+    {
+        $GLOBALS['ISO_INSTALLER'] = array();
+        $arrCache = &$GLOBALS['ISO_INSTALLER'];
+        
+        $arrCache['gallery']        = Installer\Gallery::install($blnTruncate);
+        $arrCache['document']       = Installer\Document::install($blnTruncate);
+        $arrCache['notification']   = Installer\Notification::install($blnTruncate);
+        $arrCache['gateway']        = Installer\Gateway::install($blnTruncate);
+        $arrCache['message']        = Installer\Message::install($blnTruncate);
+        $arrCache['language']       = Installer\Language::install($blnTruncate);
+        $arrCache['config']         = Installer\StoreConfig::install($blnTruncate);
+    }
+        
+    /**
+     * Truncate a table
+     *
+     * @param string
+     */
+    protected static function truncate($strTable)
+    {
+        //Check if it exists
+        if(\Database::getInstance()->tableExists($strTable)) {
+            \Database::getInstance()->executeUncached("DELETE FROM $strTable WHERE auto_installed=1");
+        }
+    }
 
 }
